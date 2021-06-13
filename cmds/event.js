@@ -34,22 +34,11 @@ module.exports = {
 		
 		const filter = m => (m.author.id == msg.author.id)
 		const channel = msg.channel
-		const collector = channel.createMessageCollector(filter, {time: 10000})
+		const collector = channel.createMessageCollector(filter, {maxProcessed: 2, time: 10000})
 		
 		collector.on('collect',  (m) => {
-			console.log(m.content)
 			var odp = m.content
 			var wynik = losowa/odp
-			console.log(wynik)
-			if(m.content == ''){
-				const wolny = new Discord.MessageEmbed()
-					.setColor('#fea1af')
-					.setTitle('Nie zdążyłeś')
-					.setDescription('W czasie, gdy ty zastanawiałeś się nad czarem, twój przeciwnik zdążył powalić cię na łopatki! Następnym razem faktycznie użyj zaklęcia!')
-					.setImage('https://media.istockphoto.com/vectors/hour-glass-sign-transparent-sandglass-icon-time-hourglass-sandclock-vector-id942707538')
-				msg.channel.send(wolny)
-				return
-			}
 			switch (wynik){
 				case 1:
 					const Win = new Discord.MessageEmbed()
@@ -84,11 +73,16 @@ module.exports = {
 			}
 		})
 		collector.on('end', collected =>{
-			console.log(collected.size)
+			if(collected.size== 0){
+				const wolny = new Discord.MessageEmbed()
+					.setColor('#fea1af')
+					.setTitle('Nie zdążyłeś')
+					.setDescription('W czasie, gdy ty zastanawiałeś się nad czarem, twój przeciwnik zdążył powalić cię na łopatki! Następnym razem faktycznie użyj zaklęcia!')
+					.setImage('https://media.istockphoto.com/vectors/hour-glass-sign-transparent-sandglass-icon-time-hourglass-sandclock-vector-id942707538')
+				msg.channel.send(wolny)
+				return
+				}
 		})
-		
-//	console.log(odp)
-
 	}
 }
 
