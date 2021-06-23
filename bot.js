@@ -1,13 +1,14 @@
 console.log('Starting');
-
 require("dotenv").config();
 
-//wymagane inicjacje
+// BIBLIOTEKI
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const fetch = require('node-fetch');
-const config = require('./config.json');
 var fs = require('fs');
+
+//INNE
+const config = require('./config.json');
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./cmds').filter(file => file.endsWith('.js'));
 
@@ -62,6 +63,7 @@ if (!client.commands.has(command)) return;
 
 const args = msg.content.trim();
 
+
 	try{
 		client.commands.get(command).execute(msg, args);
 	} catch (error) {
@@ -69,11 +71,3 @@ const args = msg.content.trim();
 	};
 	
 });
-
-
-
-
-
-
-
-
