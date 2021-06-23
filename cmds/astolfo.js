@@ -3,6 +3,16 @@ module.exports = {
 	description: 'astolfo',
 	execute(msg, args) {
 		const fetch = require('node-fetch');
+		
+/*		console.log ('A');
+		let url = `https://g.tenor.com/v1/search?q=astolfo&key=${process.env.TENORKEY}`;
+		fetch(url).then(r => r.json()).then(data => function(data){
+			let losowa = Math.floor(Math.random()*(json.results.length-1));
+			console.log(json.results[losowa].url);
+			msg.channel.send(json.results[losowa].url);
+			return;		
+		}) */	
+
 			console.log('A')
 			let url = `https://g.tenor.com/v1/search?q=astolfo&key=${process.env.TENORKEY}`
 			fetch(url)
