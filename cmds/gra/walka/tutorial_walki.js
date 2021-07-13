@@ -500,5 +500,3 @@ Wyjaśnienia co do zmiennych:
 		}
 	}
 }
-
-
