@@ -1,0 +1,15 @@
+{
+  "ID": "337674098630983680",
+  "klasa": "mag",
+  "lvl": 1,
+  "sila": 3,
+  "obrona": 4,
+  "magicka": 5,
+  "skills": {
+    "1": "cios",
+    "2": "obrona",
+    "3": "magiczny_cios",
+    "4": null,
+    "5": null
+  }
+}

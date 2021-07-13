@@ -3,7 +3,6 @@ module.exports = {
 	description: 'astolfo',
 	execute(msg, args) {
 		const fetch = require('node-fetch');
-			console.log('A')
 			let url = `https://g.tenor.com/v1/search?q=astolfo&key=${process.env.TENORKEY}`
 			fetch(url)
 				.then(r => r.json())

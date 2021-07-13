@@ -1,0 +1,15 @@
+{
+  "ID": "295599538029199360",
+  "klasa": "rycerz",
+  "lvl": 1,
+  "sila": 4,
+  "obrona": 5,
+  "magicka": 3,
+  "skills": {
+    "1": "cios",
+    "2": "obrona",
+    "3": "magiczny_cios",
+    "4": null,
+    "5": null
+  }
+}

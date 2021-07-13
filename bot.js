@@ -35,7 +35,7 @@ client.on('message', async (msg) => {
 	if(msg.author.bot ) return
 	
 	const currentDate = new Date();
-	console.log(currentDate.toLocaleString());	
+	console.log(currentDate.toLocaleString());
 	
 	
 
@@ -51,10 +51,7 @@ client.on('message', async (msg) => {
 	
 	if(msg.content.toLowerCase().includes('tele'.toLowerCase()) && msg.guild.id == '455086148105142329'){
 	msg.channel.send('<@275658656727695364>');
-} 
-
-//	if(msg.content == 'astolfo'){
-//	}
+}
 	
 	let msgSplit = msg.content.split(' ');
 	const command = msgSplit[0].toLowerCase();

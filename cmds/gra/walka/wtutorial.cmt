@@ -1,0 +1,107 @@
+module.exports = {
+	execute (msg, stats, monster){
+		
+		const Discord = require ('discord.js')
+		const emoji = require('../emoji.json')
+		
+		main (stats, monster)
+/*
+Wyjaśnienia co do zmiennych:
+	1. Zmienne stats (np. stats.sila) odnoszą się WYŁĄCZNIE do statystyk początkowych (maksymalnych)
+	2. zmienne emoji (np. emoji.sila) odnoszą się WYŁĄCZNIE do emotek z pliku emoji.json, nie wykonuje się na nich żadnych kalkulacji nie licząc wyświetlania emotek
+	3. zmienne e (np. esila) są ciągami emotek stosowanymi do wizualizacji ciągów emotek
+	4. zmienne zwykłe (np. sila) są to zmienne aktualnej ilości danej wartości (np. ilość esencji siły), ich wartość jest zmienna, ale nie może przekraczać stats.
+	5. zmienne enemy (np. enemysila) są to zmienne dotycząc wroga (np. siła wroga)
+*/
+
+		
+		async function main (stats, monster){
+///////////////////////////////////////////////////////////////
+//			 			INICJOWANIE STATYSTYK BOHATERA
+			var sila = stats.sila
+			var obrona = stats.obrona
+			var magicka = stats.magicka
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//									ODJĘTE -1 OD HP WYŁĄCZNIE DLA POKAZU, USUNĄĆ W PRZYSZŁOŚCI									  //
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+			var HP = stats.obrona - 1
+			enemyHP = 3
+			
+while(HP !== 0 && enemyHP !== 0)
+			
+///////////////////////////////////////////////////////////////
+//			 			AKTUALIZACJA PASKA ZDROWIA POTWORA
+			var eenemyHP = ''
+			for (i = 0; i < enemyhp; i++){
+				
+			}
+///////////////////////////////////////////////////////////////
+//  						AKTUALIZACJA PASKA ZDROWIA BOHATERA
+			var eHP = ''
+			for(i = 0; i < HP; i++){
+				eHP += `${emoji.hp1}`
+			}
+			for(i = 0; i < (stats.obrona - HP); i++){
+				eHP += `${emoji.hp0}`
+			}
+///////////////////////////////////////////////////////////////
+//  						AKTUALIZACJA SIŁY
+			var esila = ''
+			for(i = 0 ; i < sila ; i++){
+				esila = esila + `${emoji.sila}`
+			}
+///////////////////////////////////////////////////////////////
+//  						AKTUALIZACJA OBRONY
+			var eobrona = ''
+			for(i = 0; i < obrona ; i++){
+				eobrona += `${emoji.obrona}`
+			}
+///////////////////////////////////////////////////////////////
+//  						AKTUALIZACJA MAGICKI
+			var emagicka = ''
+			for(i = 0 ; i < magicka ; i++){
+				emagicka += `${emoji.magicka}`
+			}
+///////////////////////////////////////////////////////////////
+			var walka = new Discord.MessageEmbed()
+				.setTitle(`Walka z: ${monster.name}!`)
+// 																																																	W TYM MIEJSCU POWSTANIE ${zdolność.string} - informacje o tym co się dzieje zostaną zwrócone z funkcji zdolności
+				.setDescription(`HP wroga: ${eenemyHP} \n HP bohatera: ${eHP} \n..........................................................................................................................\n Manekin użył zdolności: **cios** i zadał: 1 pkt obr! \n Twoja kolej! \n .......................................................................................................................... \n Esencje: \n ${esila} Max: ${stats.sila}\n ${eobrona} Max: ${stats.obrona}\n ${emagicka} Max: ${stats.magicka}\n ..........................................................................................................................\n Zdolności:`)
+				.setColor('#fea1af')
+				.setThumbnail(`${monster.url}`)
+				.setFooter('Nie śpiesz się, ale pamiętaj, masz półtorej minuty na reakcję!')
+				.addFields(
+					{ name: '1. Cios', value: `Wydaj całą ${emoji.sila} siłę, by zadać x0.5 obr`, inline: true},
+					{ name: '2. Garda', value: `Wydaj całą ${emoji.obrona} obronę, by zyskać x0.5 tarczy`, inline: true},
+					{ name: '3. Magiczny cios', value: `Wydaj całą ${emoji.magicka} magickę, by zadać x0.5 obr`, inline: true},
+					{ name: '4. Drugi Wdech', value: 'Odzyskaj x0.5 wartości wszystkich esencji', inline: true}
+				)
+			msg.channel.send(walka)
+//			console.log(stats)
+//			console.log(monster)
+			msg.channel.send('Tak naprawdę nie musisz walczyć, to tylko reprezentacja interfejsu. \n Chociaż walka z manekinem zostanie wprowadzona do =gra tutorial w przyszłości..')
+			return true
+		}
+
+
+
+
+
+
+// <<< ---------------------------------------------------------------------------------------------------------- >>> 
+//                                                   FUNKCJA CZYTAJĄCA WIADOMOŚCI
+// <<< ---------------------------------------------------------------------------------------------------------- >>> 
+		async function readMSG (msg, args) {
+				const filter = (m) => (m.author.id == msg.author.id)
+			
+				return msg.channel.awaitMessages(filter, {max: 1, time: 90, errors: ['time']})
+					.then((collected) => {
+						message = collected.first().content
+						return message
+					})
+					.catch((collected) => {
+						return null
+					})
+		}
+	}
+}

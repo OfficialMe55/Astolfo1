@@ -9,20 +9,19 @@ module.exports = {
 		
 		let msgSplit = msg.content.split(' ')
 		
-		const commanFiles = fs.readdirSync('./cmds/gra').filter(file => file.endsWith('.js'))
-		for (const file of commanFiles){
+		const commandFiles = fs.readdirSync('./cmds/gra').filter(file => file.endsWith('.js'))
+		for (const file of commandFiles){
 			const command = require(`./gra/${file}`)
 			client.commands.set(command.name, command)
 		}
-		console.log(msgSplit[1])
+		
+		
 		if (msgSplit[1] == null || msgSplit[1] == 'help'){
 			msg.channel.send('help')
 			return
 		} else {
-			console.log('aaaaaaaaaaaaaaaaaaa')
-			var komenda = msgSplit[1]
+			var komenda = msgSplit[1].toLowerCase()
 		}
-		console.log(komenda)
 
 		if (!client.commands.has(komenda)) return;
 		
