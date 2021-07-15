@@ -1,10 +1,11 @@
 module.exports = {
-	execute (msg, stats, monster){
+	async execute (msg, stats, monster){
 		
 		const Discord = require ('discord.js')
 		const emoji = require('../emoji.json')
 		
-		main (msg, stats, monster)
+		output = await main (msg, stats, monster)
+		return output
 /*
 Wyjaśnienia co do zmiennych:
 	1. Zmienne stats (np. stats.sila) odnoszą się WYŁĄCZNIE do statystyk początkowych (maksymalnych)
@@ -16,16 +17,19 @@ Wyjaśnienia co do zmiennych:
 
 		
 		async function main (msg, stats, monster){
+			
+			
+			
 ///////////////////////////////////////////////////////////////
 //								   INICJALIZACJA STATYSTYK WROGA
 			enemyStats = {"sila": monster.sila, "obrona": monster.obrona, "magicka": monster.magicka}
 			
 ///////////////////////////////////////////////////////////////
 //											INICJALIZACJA HP WROGA
-			enemyHP = monster.obrona
+			enemyHP = monster.obrona+monster.bonusHP       // Manekin dostaje bonus zdrowia +2
 			enemyTarcza = 0
 			eEnemyHP = ''
-			for(i = 0; i < monster.obrona; i++){
+			for(i = 0; i < monster.obrona + monster.bonusHP; i++){
 				eEnemyHP += `${emoji.hp1}`
 			}
 			enemyTarcza = 0
@@ -112,13 +116,20 @@ Wyjaśnienia co do zmiennych:
 					{ name: `5. ${skill5.name}`, value: `${skill5.opis}`, inline: true},
 					{ name: 'Z. Drugi Wdech', value: 'Odzyskaj x0.5 wartości wszystkich esencji', inline: true}
 				)
-			msg.channel.send(walka)
-
+			let sent1 = await msg.channel.send(walka)
 			
 			msg.channel.send('Tak wygląda interfejs walki, widać na nim od góry: \n -Zdrowie twoje i przeciwnika \n -"Terminal walki" opisujący co tak właściwie w danej chwili sie dzieje \n -**Twoja** esencja, którą możesz wydawać na zdolności \n -Zdolności, z których możesz korzystać podczas walki')
 			if(enemyTurn == true ){
-				await readMSG (msg)
+				
+				// OCZEKIWANIE NA REAKCJĘ (potrzeba zrobić const filter)
+				
+				await readEMOJI(msg, sent1)
+				
+				
+				
 				 choice = await AI (msg, monster, enemyHP, enemyTarcza,  enemyStats, heroHP, heroTarcza) 
+				 
+				 
 					//AI ZWRACA NAZWĘ ZDOLNOŚCI, KTÓREGO CHCE UŻYĆ, LUB 'Z', KIEDY CHCE UŻYĆ DEUGIEGO WDECHU
 					if(choice == 'Z'){
 						enemyStats.sila = await Z (enemyStats.sila, monster.sila)
@@ -150,8 +161,8 @@ Wyjaśnienia co do zmiennych:
 			} else {
 				i = true
 				while (result == null){
-					 choice = await readMSG (msg)
-					  if(choice != null)msgSplit = choice.split('')
+					 choice = await readMSG (msg, sent1)
+					  if(choice != null)msgSplit = choice.split(' ')
 					  else msgSplit[0] = null
 					switch(msgSplit[0]){
 						case '1':
@@ -240,7 +251,7 @@ Wyjaśnienia co do zmiennych:
 						for(i = 0; i < enemyHP; i++){
 							eEnemyHP += `${emoji.hp1}`
 						}
-						for(i = 0; i < (monster.obrona - enemyHP); i++){
+						for(i = 0; i < (monster.obrona - enemyHP+monster.bonusHP); i++){
 							eEnemyHP += `${emoji.hp0}`
 						}
 						for(i = 0; i < enemyTarcza; i++){
@@ -275,7 +286,8 @@ Wyjaśnienia co do zmiennych:
 								{ name: `5. ${skill5.name}`, value: `${skill5.opis}`, inline: true},
 								{ name: 'Z. Drugi Wdech', value: 'Odzyskaj x0.5 wartości wszystkich esencji', inline: true}
 							)
-						msg.channel.send(walka)
+						let sent2 = await msg.channel.send(walka)
+						
 						switch (tutorial){
 							case 0:
 								msg.channel.send ('Możesz wybrać zdolności wpisując odpowiedni znak (np. **1** dla ciosu, lub **z** dla drugiego wdechu). Pamiętaj, że **wszystkie** ułamki zaokrąglane są w dół \n Manekin czeka na twój ruch ;3')
@@ -285,21 +297,23 @@ Wyjaśnienia co do zmiennych:
 							case 1:
 								msg.channel.send ('Umiejętność obrony pozwala zamienić tobie (i przeciwnikowi) esencję obrony w tarczę. Każdy punkt tarczy neguje jeden punkt obrażeń. Możesz o nich myśleć jako o "niebieskich sercach" w Isaacu')
 								tutorial++
-							break
+								break
 							
 							case 2:
 								msg.channel.send ('Pamiętaj, że jeśli brakuje ci esencji, możesz użyć ostatniegu wdechu, żeby odnowić **każdy** rodzaj esencji. Drugi wdech jest jedyną zdolnością, której nie będzie można zamienić \n Oh, zapomniałem wspomnieć - nigdy nie możesz mieć więcej esencji, niż ci na to pozwala twoja statystyka')
 								tutorial++
-							break
+								break
 							
 							case 3:
-								msg.channel.send('Pamiętaj, że twój przeciwnik również ma swoje statystyki... Może nie powinienem ci tego mówić, ale manekin ma 2 siły, 5 obrony i 2 magicki... \n W przyszłości może poznasz zdolności ujawniające statystyki twojego wroga ;3')
+								msg.channel.send('Pamiętaj, że twój przeciwnik również ma swoje statystyki... Może nie powinienem ci tego mówić, ale manekin ma 2 siły, 3 obrony i 2 magicki... \n W przyszłości może poznasz zdolności ujawniające statystyki twojego wroga ;3')
 								tutorial ++
-							break
+								break
 							
 							case 4:
 								msg.channel.send('Jeśli przez dwie minuty nie wykonasz żadnej akcji, to twoja postać automatycznie użyje zdolności **drugi wdech**... w końcu to ma sens... jakby nie patrzeć przez chwilę nic nie robisz..')
-							
+								tutorial++
+								break
+								
 							case 5:
 								msg.channel.send('Oh, jeszcze jedno, lepiej powiedzieć od razu, żeby później nie było siary: Jeśli użyjesz innej astolfo komendy zaczynającej się prefixem `=gra`, to walka zostanie automatycznie poddana... Tak więc już wiesz..')
 								tutorial++
@@ -307,9 +321,13 @@ Wyjaśnienia co do zmiennych:
 						
 						}		
 						if(enemyTurn == true ){
-							await readMSG (msg)
+							
+							// OCZEKIWANIE NA REAKCJĘ (potrzeba zrobić const filter)
+							await readEMOJI(msg, sent2)
+							// OCZEKIWANIE NA REAKCJĘ
+							
 							 choice = await AI (msg, monster, enemyHP, enemyTarcza,  enemyStats, heroHP, heroTarcza) 
-								//AI ZWRACA NAZWĘ ZDOLNOŚCI, KTÓREGO CHCE UŻYĆ, LUB 'Z', KIEDY CHCE UŻYĆ DEUGIEGO WDECHU
+								//AI ZWRACA NAZWĘ ZDOLNOŚCI, KTÓREJ CHCE UŻYĆ, LUB 'Z', KIEDY CHCE UŻYĆ DEUGIEGO WDECHU
 								if(choice == 'Z'){
 									enemyStats.sila = await Z (enemyStats.sila, monster.sila)
 									enemyStats.obrona = await Z (enemyStats.obrona, monster.obrona)
@@ -338,8 +356,8 @@ Wyjaśnienia co do zmiennych:
 							
 							result = null
 							while (result == null){
-								 choice = await readMSG (msg)
-								 if(choice != null)msgSplit = choice.split('')
+								 choice = await readMSG (msg, sent2)
+								 if(choice != null)msgSplit = choice.split(' ')
 								 else msgSplit[0] = null
 								switch(msgSplit[0]){
 									case '1':
@@ -407,8 +425,8 @@ Wyjaśnienia co do zmiennych:
 					else enemyTurn = true
 				}
 
-			if (heroHP <= 0) msg.channel.send('Manekin pokonał ciebie! :partying_face:')
-			if (enemyHP <= 0) msg.channel.send('Pokonałeś manekina! :partying_face:')
+			if (heroHP <= 0) return false
+			if (enemyHP <= 0) return true
 		}
 
 // <<< ---------------------------------------------------------------------------------------------------------- >>>//
@@ -421,16 +439,22 @@ Wyjaśnienia co do zmiennych:
 			 heroHP = heroHP
 			 testy = []
 			 desperacja = 0.5
+			 wdech = 0
 			
 			
 			 esencja = enemyStats.sila + enemyStats.obrona + enemyStats.magicka
 			 maxEsencja = monster.sila + monster.obrona + monster.magicka
 ///////////////////////////////////////////////////////////////
 //					 AI DECYDUJE NAD UŻYCIEM DRUGIEGO WDECHU
-			if (esencja < maxEsencja * 3/5){
+			wdech = 0
+			if(enemyStats.sila < monster.sila*1/2) wdech ++
+			if(enemyStats.obrona < monster.obrona*1/2) wdech ++
+			if(enemyStats.magicka < monster.magicka*1/2) wdech ++
+			
+			if (wdech == 2){
 				if(Math.floor(Math.random()*2) == 1) return 'Z'
 			}
-			if(esencja < maxEsencja * 2/5) {
+			if(wdech == 3) {
 				return 'Z'
 			}
 			
@@ -465,15 +489,17 @@ Wyjaśnienia co do zmiennych:
 		}
 
 // <<< ---------------------------------------------------------------------------------------------------------- >>> 
-//                                                   FUNKCJA CZYTAJĄCA WIADOMOŚCI
+//                                    	FUNKCJA CZYTAJĄCA WIADOMOŚCI (+ USUWANIE)
 // <<< ---------------------------------------------------------------------------------------------------------- >>> 
-		async function readMSG (msg){
+		async function readMSG (msg, sent){
 				const filter = (m) => (m.author.id == msg.author.id)
 			
 				return msg.channel.awaitMessages(filter, {max: 1, time: 120000, errors: ['time']})
 					.then((collected) => {
-						message = collected.first().content
-						return message
+						message = collected.first()
+						message.delete({ timeout: 10}) // CZĘŚĆ ODPOWIEDZIALNA ZA USUWANIE
+						sent.delete({timeout: 10})
+						return message.content
 					})
 					.catch((collected) => {
 						return null
@@ -483,8 +509,21 @@ Wyjaśnienia co do zmiennych:
 //                                     	              FUNKCJA CZYTAJĄCA REAKCJE
 // <<< ---------------------------------------------------------------------------------------------------------- >>> 
 
-
-
+	async function readEMOJI (msg, sent) {
+		const filter = (reaction, user) => {
+			return (user.id == msg.author.id && reaction.emoji.name == 'Dalej')
+		}
+		sent.react('<:Dalej:864098631589429248>')
+		output = await sent.awaitReactions(filter, {max: 1, time: 90000, errors: ['time']})
+			.then(collected => {
+				return true
+			})
+			.catch(collected => {
+				return false
+			})
+			sent.delete({timeout: 10})
+		return output
+	}
 
 
 

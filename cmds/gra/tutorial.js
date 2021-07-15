@@ -2,7 +2,7 @@ module.exports = {
 	name: 'tutorial',
 	description: 'tutorial',
 	execute(msg, args) {		
-	
+
 		main(msg, args)
 		
 		async function main (msg, args){
@@ -30,8 +30,9 @@ module.exports = {
 				"name": "manekin",
 				"url": "https://art.pixilart.com/4025ed819bd4032.gif",
 				"sila": 2,
-				"obrona": 5,
+				"obrona": 3,
 				"magicka": 2,
+				"bonusHP": 2,
 				"skills": {"1": "cios", "2": "obrona", "3": "magiczny_cios"}
 			}
 			var response = await readMSG(msg, args)
@@ -39,7 +40,6 @@ module.exports = {
 				msg.channel.send('Nie musiałeś się śpieszyć z czytaniem wiadomości, możesz wpisać "=gra tutorial" jeszcze raz')
 				return
 			}
-			
 // <<< ---------------------------------------------------------------------------------------------------------- >>> 
 //                                                    TUTAJ INICJALIZACJA FUNKCJI WALKI
 // <<< ---------------------------------------------------------------------------------------------------------- >>> 
@@ -47,7 +47,6 @@ module.exports = {
 			let result = await walka.execute(msg, stats, monster)		 											 //
 // <<< ---------------------------------------------------------------------------------------------------------- >>> 
 //                                          WALKA ZWRACA TRUE, JEŚLI BOHATER ZWYCIĘŻYŁ, LUB FALSE, JEŚLI PRZEGRAŁ
-//                                           ALE W PRAKTYCE KOD JEST GŁUPI I NIE OGARNIA, ŻE JAK MA AWAIT, TO MA CZEKAĆ
 				console.log(result)
 		}
 		
