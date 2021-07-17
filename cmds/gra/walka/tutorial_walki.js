@@ -16,13 +16,18 @@ Wyjaśnienia co do zmiennych:
 */
 
 		
-		async function main (msg, stats, monster){
-			
+		async function main (msg, stats, monster, lvl){
+			if (lvl == null) lvl = 1
 			
 			
 ///////////////////////////////////////////////////////////////
 //								   INICJALIZACJA STATYSTYK WROGA
 			enemyStats = {"sila": monster.sila, "obrona": monster.obrona, "magicka": monster.magicka}
+			enemyStats.sila += lvl-1
+			enemyStats.obrona += lvl-1
+			enemyStats.magicka += lvl-1
+			
+			
 			
 ///////////////////////////////////////////////////////////////
 //											INICJALIZACJA HP WROGA
@@ -220,6 +225,7 @@ Wyjaśnienia co do zmiennych:
 						
 					enemyTurn = true
 			}
+			sent1.delete({timeout: 1})
 			
 ///////////////////////////////////////////////////////////////
 //							      ROZPOCZECIE WALKI TUROWEJ
@@ -361,23 +367,28 @@ Wyjaśnienia co do zmiennych:
 								 else msgSplit[0] = null
 								switch(msgSplit[0]){
 									case '1':
-										if(skill1 != null) result = await skill1.execute(sila, obrona, magicka)
+										if(skill1.execute != null) result = await skill1.execute(sila, obrona, magicka)
+										else msg.channel.send('błąd: slot 1. nie zawiera zdolności, spróbuj jeszcze raz')
 										break
 							
 									case '2':
-										if(skill2 != null) result = await skill2.execute(sila, obrona, magicka)
+										if(skill2.execute != null) result = await skill2.execute(sila, obrona, magicka)
+										else msg.channel.send('błąd: slot 2. nie zawiera zdolności, spróbuj jeszcze raz')
 										break
 								
 									case '3':
-										if(skill3 != null) result = await skill3.execute(sila, obrona, magicka)
+										if(skill3.execute != null) result = await skill3.execute(sila, obrona, magicka)
+										else msg.channel.send('błąd: slot 3. nie zawiera zdolności, spróbuj jeszcze raz')
 										break
 								
 									case '4':
-										if(skill4 != null) result = await skill4.execute(sila, obrona, magicka)
+										if(skill4.execute != null) result = await skill4.execute(sila, obrona, magicka)
+										else msg.channel.send('błąd: slot 4. nie zawiera zdolności, spróbuj jeszcze raz')
 										break
 								
 									case '5':
-										if(skill5 != null) result = await skill5.execute(sila, obrona, magicka)
+										if(skill5.execute != null) result = await skill5.execute(sila, obrona, magicka)
+										else msg.channel.send('błąd: slot 5. nie zawiera zdolności, spróbuj jeszcze raz')
 										break
 							
 									case '=gra':
@@ -417,6 +428,8 @@ Wyjaśnienia co do zmiennych:
 							if(result.magicka != null) magicka = result.magicka
 							
 						}
+						
+					sent2.delete({timeout:1})
 					}
 					if (enemyTurn == true) {
 						text += '\n Teraz twoja kolej!'
@@ -491,14 +504,13 @@ Wyjaśnienia co do zmiennych:
 // <<< ---------------------------------------------------------------------------------------------------------- >>> 
 //                                    	FUNKCJA CZYTAJĄCA WIADOMOŚCI (+ USUWANIE)
 // <<< ---------------------------------------------------------------------------------------------------------- >>> 
-		async function readMSG (msg, sent){
+		async function readMSG (msg){
 				const filter = (m) => (m.author.id == msg.author.id)
 			
 				return msg.channel.awaitMessages(filter, {max: 1, time: 120000, errors: ['time']})
 					.then((collected) => {
 						message = collected.first()
 						message.delete({ timeout: 10}) // CZĘŚĆ ODPOWIEDZIALNA ZA USUWANIE
-						sent.delete({timeout: 10})
 						return message.content
 					})
 					.catch((collected) => {
@@ -521,7 +533,6 @@ Wyjaśnienia co do zmiennych:
 			.catch(collected => {
 				return false
 			})
-			sent.delete({timeout: 10})
 		return output
 	}
 

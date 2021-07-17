@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'register',
-	description: 'register',
+	description: 'Otwiera kreator postaci do Astolfo gry.',
+	type: 'start',
 	execute(msg, args) {
 		
 		const fs = require('fs')

@@ -1,6 +1,7 @@
 module.exports = {
-	name: 'profil',
-	description: 'profil',
+	name: 'Profil',
+	description: 'Pokazuje profil twojego bohatera',
+	type: 'bohater',
 	execute(msg, args) {
 		
 		const Discord = require ('discord.js')

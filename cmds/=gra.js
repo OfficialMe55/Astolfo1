@@ -17,7 +17,39 @@ module.exports = {
 		
 		
 		if (msgSplit[1] == null || msgSplit[1] == 'help'){
-			msg.channel.send('help')
+			
+			var start = ''
+			var inne = ''
+			var miasto = ''
+			var bohater = ''
+			var text = ''
+			client.commands.forEach( element => {
+				switch (element.type){
+					case 'start':
+						start += `**${element.name}**:  ${element.description} \n`
+						break
+					
+					case 'miasto':
+						miasto += `**${element.name}**:  ${element.description} \n`
+						break
+						
+					case 'bohater':
+						bohater += `**${element.name}**:  ${element.description} \n`
+						break
+						
+					default:
+						inne += `**${element.name}**:  ${element.description} \n`
+				}
+			})
+			
+			const help = new Discord.MessageEmbed()
+					.setColor('#fea1af')
+					.setTitle('Lista Komend ')
+					.setDescription(`Prefix: =gra \n ====================Miasto===================== \n ${miasto} \n ====================Postać===================== \n ${bohater} \n =================Dla Nowych================= \n ${start} \n =====================Inne===================== \n ${inne}`)
+					.setThumbnail('https://i.kym-cdn.com/entries/icons/facebook/000/023/661/wfdbaSHt.jpg')
+				msg.channel.send(help)
+			
+			
 			return
 		} else {
 			var komenda = msgSplit[1].toLowerCase()

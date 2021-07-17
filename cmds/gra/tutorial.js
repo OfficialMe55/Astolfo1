@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'tutorial',
-	description: 'tutorial',
+	description: 'Zapewnia krótki poradnik prezentujący podstawowe mechaniki walki.',
+	type: 'start',
 	execute(msg, args) {		
 
 		main(msg, args)
@@ -34,7 +35,7 @@ module.exports = {
 				"magicka": 2,
 				"bonusHP": 2,
 				"skills": {"1": "cios", "2": "obrona", "3": "magiczny_cios"}
-			}
+			} 
 			var response = await readMSG(msg, args)
 			if(response == null){
 				msg.channel.send('Nie musiałeś się śpieszyć z czytaniem wiadomości, możesz wpisać "=gra tutorial" jeszcze raz')
@@ -44,7 +45,7 @@ module.exports = {
 //                                                    TUTAJ INICJALIZACJA FUNKCJI WALKI
 // <<< ---------------------------------------------------------------------------------------------------------- >>> 
 			const walka = require ('./walka/tutorial_walki.js')                               					    		 //
-			let result = await walka.execute(msg, stats, monster)		 											 //
+			let result = await walka.execute(msg, stats, monster)		 													 //
 // <<< ---------------------------------------------------------------------------------------------------------- >>> 
 //                                          WALKA ZWRACA TRUE, JEŚLI BOHATER ZWYCIĘŻYŁ, LUB FALSE, JEŚLI PRZEGRAŁ
 				console.log(result)
