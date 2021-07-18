@@ -52,6 +52,11 @@ client.on('message', async (msg) => {
 	if(msg.content.toLowerCase().includes('tele'.toLowerCase()) && msg.guild.id == '455086148105142329'){
 	msg.channel.send('<@275658656727695364>');
 }
+
+
+	if(msg.content.toLowerCase().includes('profilowe'.toLowerCase()) && msg.guild.id == '813170489890832394' && msg.author.id == '819662938578092072'){
+	msg.channel.send('Swoją drogą nie wiem, czy wiesz, <@681572014988722299>, ale twoje profilowe naprawdę nie powala...')
+}
 	
 	let msgSplit = msg.content.split(' ');
 	const command = msgSplit[0].toLowerCase();

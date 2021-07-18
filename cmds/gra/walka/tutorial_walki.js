@@ -6,6 +6,10 @@ module.exports = {
 		
 		output = await main (msg, stats, monster)
 		return output
+		
+// https://stackoverflow.com/questions/52888706/how-to-change-multiple-variables-for-any-given-variable-inside-a-function
+		
+		
 /*
 Wyjaśnienia co do zmiennych:
 	1. Zmienne stats (np. stats.sila) odnoszą się WYŁĄCZNIE do statystyk początkowych (maksymalnych)
