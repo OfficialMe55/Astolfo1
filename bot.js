@@ -58,6 +58,10 @@ client.on('message', async (msg) => {
 	msg.channel.send('Swoją drogą nie wiem, czy wiesz, <@681572014988722299>, ale twoje profilowe naprawdę nie powala...')
 }
 	
+	if(msg.content.toLowerCase().includes('zbrodni'.toLowerCase()) && msg.guild.id == '455086148105142329' && msg.content.toLowerCase().includes('boś'.toLowerCase())){
+	msg.channel.send('<@528317912822317057>')
+}
+	
 	let msgSplit = msg.content.split(' ');
 	const command = msgSplit[0].toLowerCase();
 	
