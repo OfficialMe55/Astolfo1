@@ -32,7 +32,7 @@ function readyDiscord() {
 client.on('message', async (msg) => {
 	
 	
-	if(msg.author.bot ) return
+	if(msg.author.bot || msg.author.id == 274672579099230217) return
 	
 	const currentDate = new Date();
 	console.log(currentDate.toLocaleString());
