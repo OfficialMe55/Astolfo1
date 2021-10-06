@@ -52,7 +52,7 @@ client.on('message', async (msg) => {
 	if(msg.content.toLowerCase().includes('tele'.toLowerCase()) && msg.guild.id == '455086148105142329'){
 	msg.channel.send('<@275658656727695364>');
 }
-	if(msg.content.toLowerCase().includes('królik'.toLowerCase()) && msg.guild.id == '455086148105142329'){
+	if(msg.content.toLowerCase().includes('króli'.toLowerCase()) && msg.guild.id == '455086148105142329' && !msg.content.toLowerCase().includes('króli '.toLowerCase()){
 	msg.channel.send('<@754315545113002025>');
 }
 	if(msg.content.toLowerCase().includes('królicz'.toLowerCase()) && msg.guild.id == '455086148105142329'){
