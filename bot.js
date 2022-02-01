@@ -45,15 +45,12 @@ client.on('message', async (msg) => {
 	}
 	
 	//komenda pingująca Dominika za każdym razem, gdy ktoś wspomni o pomidorze
-	if(msg.content.toLowerCase().includes('pomidor'.toLowerCase()) || msg.content.toLowerCase().includes('groch'.toLowerCase()) || msg.content.toLowerCase().includes('grosz'.toLowerCase())  && msg.guild.id == '455086148105142329'){
+	if(msg.content.toLowerCase().includes('pomidor'.toLowerCase()) && msg.guild.id == '455086148105142329'){
 		msg.channel.send('<@324945476824727553> Pomidorze chodź');
 	}
 	
 	if(msg.content.toLowerCase().includes('tele'.toLowerCase()) && msg.guild.id == '455086148105142329'){
 	msg.channel.send('<@275658656727695364>');
-}
-	if(msg.content.toLowerCase().includes('króli'.toLowerCase()) && msg.guild.id == '455086148105142329' && !msg.content.toLowerCase().includes('króli '.toLowerCase()) && !msg.content.toLowerCase().includes(' króli'.toLowerCase())){
-	msg.channel.send('<@754315545113002025>');
 }
 
 
