@@ -48,10 +48,6 @@ client.on('message', async (msg) => {
 	if(msg.content.toLowerCase().includes('pomidor'.toLowerCase()) && msg.guild.id == '455086148105142329'){
 		msg.channel.send('<@324945476824727553> Pomidorze chodź');
 	}
-	
-	if(msg.content.toLowerCase().includes('tele'.toLowerCase()) && msg.guild.id == '455086148105142329'){
-	msg.channel.send('<@275658656727695364>');
-}
 
 
 	if(msg.content.toLowerCase().includes('profilowe'.toLowerCase()) && msg.guild.id == '813170489890832394' && msg.author.id == '819662938578092072'){
